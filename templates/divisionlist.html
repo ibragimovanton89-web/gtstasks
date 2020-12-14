@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+
+
+{% block body %}
+
+<div class="container">
+
+    <h2 class="text-center"> Список подразделений </h2><br>
+    <table class="table table-bordered">
+
+        <tr>
+            <th class="table-dark text-center">Id</th>
+            <th class="table-dark text-center">Наименование подразделения</th>
+            <th class="table-dark text-center">Изменить/Удалить</th>
+        </tr>
+
+        {%for el in data%}
+        <tr class="table-success">
+            <td class="align-middle text-center">{{el.id}}</td>
+            <td class="align-middle text-center">{{el.name}} </td>
+            <td class="align-middle text-center">
+            <a class="btn btn-primary" href="/editdivision/{{el.id}}">Изменить</a>
+            <a class="btn btn-danger" href="/deldivision/{{el.id}}">Удалить</a>
+            </td>
+         </tr>
+        {%endfor%}
+
+    </table>
+</div>
+
+{%endblock%}

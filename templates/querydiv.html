@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+
+{% block body %}
+
+<div class="container">
+    <h2 class="text-center">{%block h2title%}Заявки подразделению{%endblock%}</h2><br>
+    <table class="table table-bordered">
+
+        <tr>
+            <th class="table-dark text-center">Номер заявки</th>
+            <th class="table-dark text-center">Создатель заявки</th>
+            <th class="table-dark text-center">Наименование заявки</th>
+            <th class="table-dark text-center">Адресована подразделению</th>
+            <th class="table-dark text-center">Дата создания</th>
+            <th class="table-dark text-center">Дата выполнения</th>
+            <th class="table-dark text-center">Заявку выпонил</th>
+            <th class="table-dark text-center " scope="col" colspan="2">Статус</th>
+        </tr>
+
+        {%for el in data%}
+        {% if el.Item.iscompleted %}
+        <tr class="table-success">
+            {% else %}
+        <tr class="table-danger">
+            {% endif %}
+
+            <td class="align-middle text-center">{{el.Item.id}}</td>
+            <td class="align-middle text-center">{{el.User.name}} {{el.User.lastname}}</td>
+            <td class="align-middle text-center"><a href="/description/{{el.Item.id}}" data-toggle="tooltip"
+                                                    data-placement="top" title="Подробнее"> {{el.Item.title}} </a></td>
+            <td class="align-middle text-center">{{el.Division.name}}</td>
+            <td class="align-middle text-center">{{el.Item.creation_date}}</td>
+            <td class="align-middle text-center">{{el.Item.completion_date}}</td>
+            <td class="align-middle text-center">{{el.Item.executor}}</td>
+
+
+            {% if el.Item.iscompleted %}
+            <td class="align-middle text-center">
+                <i class="fas fa-angle-down display-4 text-success"></i>
+            </td>
+
+            {% if current_user.is_authenticated %}
+            <td class="align-middle text-center">
+                <a class="btn btn-danger" onClick="return confirm('Вы уверены, что хотите отменить выполнение заявки?')"
+                   href='/changestatusabort/{{el.Item.id}}'>Отменить</a>
+            </td>
+
+            {% endif %}
+
+            {% else %}
+
+            <td class="align-middle text-center">
+                <i class="fas fa-times display-4 text-danger "></i>
+            </td>
+
+            {% if current_user.is_authenticated %}
+            <td class="align-middle text-center">
+                <a class="btn btn-success" href="/changestatus/{{el.Item.id}}">Выполнить</a>
+            </td>
+            {% endif %}
+
+            {% endif %}
+
+        </tr>
+
+        <p>{{el.Item.iscopleted}}</p>
+        {%endfor%}
+
+    </table>
+</div>
+
+{%endblock%}

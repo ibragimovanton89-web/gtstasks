@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Система учета заявок</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 ">
+    <a class="navbar-brand" href="{{url_for('index')}}">СГМУП ГТС</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Заявки</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{url_for('index')}}">Все заявки <span class="sr-only"></span></a>
+
+                    <a class="dropdown-item" href={{url_for('querydiv')}}>Заявки подразделению</a>
+
+                    <a class="dropdown-item" href="{{url_for('mytask')}}">Мои зявки</a>
+
+                    {% if current_user.is_authenticated %}
+                        <a class="dropdown-item" href={{url_for('create')}}><span class="p-1 bg-success text-white"> Содать новую заявку</span></a>
+                    {% endif %}
+                </div>
+
+            </li>
+            {% if current_user.id==1 %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbaruser" data-toggle="dropdown">Пользователи</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{url_for('userlist')}}">Список всех пользователей<span class="sr-only"></span></a>
+                        <a class="dropdown-item" href={{url_for('register')}}><span class="p-1 bg-success text-white">Добавить пользователя</span></a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardivision" data-toggle="dropdown">Подразделения</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{url_for('divisionlist')}}">Список всех подразделений<span class="sr-only"></span></a>
+                        <a class="dropdown-item" href={{url_for('adddivision')}}><span class="p-1 bg-success text-white"> Добавить подразделение</span></a>
+                    </div>
+                </li>
+            {%endif%}
+        </ul>
+
+        {% if current_user.is_authenticated %}
+            <h2 class="text-success mx-auto">{{current_user.login}}</h2>
+            <a class="btn btn-warning my-2 my-sm-0" href={{url_for('logout')}}>Выйти</a>
+        {% else %}
+            <a class="btn btn-success my-2 my-sm-0" href={{url_for('login_user_page')}}>Войти</a>
+        {% endif %}
+
+    </div>
+</nav>
+{%block body%}
+{%endblock%}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

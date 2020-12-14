@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+
+{% block title%}
+<title> Создание заявки </title>
+{%endblock%}
+
+
+{% block body%}
+<div class=" container col-md-4" >
+    <h1> Создание заявки  </h1>
+<form action="" method="post">
+
+    <input type="text" class="form-control" name="title" id = 'title' placeholder="Краткое описнаие заявки"> <br>
+    <select class="form-control" id="dvision" name="division" required >
+        {%for div in data%}
+        <option>{{div}}</option>
+        {%endfor%}
+    </select><br><br>
+    <textarea rows="10" class="form-control" name="description" id = 'description' placeholder="Краткое описнаие заявки"> </textarea><br>
+    <button class="btn btn-success" type="submit">Отправить заявку</button>
+
+</form>
+    </div>
+{%endblock%}

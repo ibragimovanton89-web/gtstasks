@@ -1,0 +1,16 @@
+{%extends 'base.html'%}
+
+
+{%block body%}
+<div class="container">
+    <h2 class="text-center">Подробное описание заявки</h2><br>
+    <p class="text-center">{{data.description}}</p>
+</div>
+
+<div class="container text-center">
+    <a class="btn btn-success" href={{url_for('index')}}>Назад</a>
+</div>
+
+{%endblock%}
+
+
