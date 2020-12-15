@@ -5,7 +5,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
-import os
+from app.weather import weather
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///bide.db'
@@ -150,7 +151,7 @@ def userlist():
         return render_template('/index.html')
     else:
         users = db.session.query(User, Division).join(Division, User.division_id == Division.id).all()
-        return render_template('userlist.html', data=users)
+        return render_template('userlist.html', data=users, weather=weather())
 
 
 # -----------------------------------------------------------------------------------
@@ -218,7 +219,7 @@ def deluser(id):
 def index():
     items = db.session.query(Item, Division, User).join(Division, Item.division_id == Division.id).join(User,
                                                                                                         Item.user_id == User.id).all()
-    return render_template('index.html', data=items)
+    return render_template('index.html', data=items, weather=weather())
 
 
 # -----------------------------------------------------------------------------------
@@ -229,7 +230,7 @@ def querydiv():
                                                                                                         Item.user_id == User.id).filter(
         Item.division_id == current_user.division_id).all()
 
-    return render_template('querydiv.html', data=items)
+    return render_template('querydiv.html', data=items, weather=weather() )
 
 
 # -----------------------------------------------------------------------------------
@@ -238,7 +239,7 @@ def querydiv():
 def divisionlist():
     divisions = Division.query.order_by(Division.id).all()
 
-    return render_template('divisionlist.html', data=divisions)
+    return render_template('divisionlist.html', data=divisions, weather=weather())
 
 
 # -----------------------------------------------------------------------------------
@@ -321,7 +322,7 @@ def mytask():
                                                                                                         Item.user_id == User.id).filter(
         User.id == current_user.id).all()
 
-    return render_template('mytask.html', data=items)
+    return render_template('mytask.html', data=items, weather=weather())
 
 
 # ------------------------------------------------------------------------------------
