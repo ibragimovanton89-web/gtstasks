@@ -392,18 +392,17 @@ def create():
         return render_template('create.html', data=divisions)
 
 
+@app.before_first_request
 def create_superuser():
-    admin = User(login='admin', name='admin', lastname='admin', division_id=1,
-                 password=generate_password_hash('admin'), status='Администратор')
-    try:
-        db.session.add(admin)
-        db.session.commit()
-    except:
-        print("Ошибка добавления Администратора в БД")
+    if not (User.query.filter_by(status="Администратор").first()):
+        admin = User(login='admin', name='admin', lastname='admin', division_id=1,
+                     password=generate_password_hash('admin'), status='Администратор')
+        try:
+            db.session.add(admin)
+            db.session.commit()
+        except:
+            print("Ошибка добавления Администратора в БД")
 
-
-if not (User.query.filter_by(status="Администратор").first()):
-    create_superuser()
 
 if __name__ == "__main__":
     app.run(debug=True)
