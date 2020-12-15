@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
+import os
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///bide.db'
@@ -55,8 +56,9 @@ class Division(db.Model):
     def __repr__(self):
         return self.name
 
-
 # -----------------------------------------------------------------------------------
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)

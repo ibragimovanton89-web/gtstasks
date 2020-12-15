@@ -9,10 +9,11 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 ">
-    <a class="navbar-brand" href="{{url_for('index')}}">СГМУП ГТС</a>
+    <a class="navbar-brand" href="{{url_for('index')}}"><img width = "70" height = "35" src="{{ url_for('static', filename='logo_gts.png') }}" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
