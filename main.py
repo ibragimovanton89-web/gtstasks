@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
-from app.weather import weather
+from app.weather.weather import weather
 
 
 app = Flask(__name__)
