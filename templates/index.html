@@ -4,8 +4,8 @@
 {% block body %}
 <div class="container">
     <h2 class="text-center">Все заявки</h2><br>
-    <table class="table table-bordered table-responsive table-hover">
-
+    <table class="table table-bordered table-responsive table_sort">
+        <thead>
         <tr>
             <th class="table-dark text-center">Номер заявки</th>
             <th class="table-dark text-center">Создатель заявки</th>
@@ -16,7 +16,8 @@
             <th class="table-dark text-center">Заявку выпонил</th>
             <th class="table-dark text-center " scope="col" colspan="2">Статус</th>
         </tr>
-
+        </thead>
+        <tbody>
         {%for el in data%}
         {% if el.Item.iscompleted %}
         <tr class="table-success">
@@ -35,21 +36,22 @@
 
 
             {% if el.Item.iscompleted %}
-                <td class="align-middle text-center">
-                    <i class="fas fa-angle-down display-4 text-success"></i>
-                </td>
+            <td class="align-middle text-center">
+                <i class="fas fa-angle-down display-4 text-success"></i>
+            </td>
 
             {% else %}
-                <td class="align-middle text-center">
-                    <i class="fas fa-times display-4 text-danger "></i>
-                </td>
+            <td class="align-middle text-center">
+                <i class="fas fa-times display-4 text-danger "></i>
+            </td>
             {% endif %}
         </tr>
 
         <p>{{el.Item.iscopleted}}</p>
         {%endfor%}
-
+        </tbody>
     </table>
 </div>
+
 
 {%endblock%}

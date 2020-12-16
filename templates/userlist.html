@@ -6,8 +6,8 @@
 <div class="container">
 
     <h2 class="text-center"> Пользователи </h2><br>
-    <table class="table table-bordered table-hover">
-
+    <table class="table table-bordered table_sort">
+        <thead>
         <tr>
             <th class="table-dark text-center">Id</th>
             <th class="table-dark text-center">Логин</th>
@@ -17,26 +17,27 @@
             <th class="table-dark text-center">Статус</th>
             <th class="table-dark text-center">Изменить/Удалить</th>
         </tr>
-
+        </thead>
+        <tbody>
         {%for el in data%}
         <tr class="table-success">
 
             <td class="align-middle text-center">{{el.User.id}}</td>
-            <td class="align-middle text-center">{{el.User.login}} </td>
+            <td class="align-middle text-center">{{el.User.login}}</td>
             <td class="align-middle text-center"> {{el.User.name}} </a></td>
             <td class="align-middle text-center">{{el.User.lastname}}</td>
             <td class="align-middle text-center">{{el.Division.name}}</td>
             <td class="align-middle text-center">{{el.User.status}}</td>
             <td class="align-middle text-center">
-            <a class="btn btn-primary" href="/edituser/{{el.User.id}}">Изменить</a>
+                <a class="btn btn-primary" href="/edituser/{{el.User.id}}">Изменить</a>
                 {%if el.User.status == 'Пользователь'%}
-            <a class="btn btn-danger" href="/deluser/{{el.User.id}}">Удалить</a>
+                <a class="btn btn-danger" href="/deluser/{{el.User.id}}">Удалить</a>
                 {%endif%}
             </td>
-         </tr>
+        </tr>
         {%endfor%}
-
+        </tbody>
     </table>
 </div>
-
+<script src="{{url_for('static', filename='js/sorted.js')}}"></script>
 {%endblock%}

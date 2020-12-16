@@ -1,0 +1,11 @@
+.table_sort th {
+    cursor: pointer;
+}
+
+th.sorted[data-order="-1"]::before {
+	content: "▼"
+}
+
+th.sorted[data-order="1"]::before {
+	content: "▲"
+}

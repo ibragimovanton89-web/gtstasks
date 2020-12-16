@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -6,7 +6,6 @@ from datetime import datetime
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from weather.weather import сelsius_degree
-
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///bide.db'
@@ -56,6 +55,7 @@ class Division(db.Model):
 
     def __repr__(self):
         return self.name
+
 
 # -----------------------------------------------------------------------------------
 
@@ -230,7 +230,7 @@ def querydiv():
                                                                                                         Item.user_id == User.id).filter(
         Item.division_id == current_user.division_id).all()
 
-    return render_template('querydiv.html', data=items, weather=сelsius_degree() )
+    return render_template('querydiv.html', data=items, weather=сelsius_degree())
 
 
 # -----------------------------------------------------------------------------------
@@ -392,7 +392,10 @@ def create():
             return "Ошибка заполнения"
 
     else:
-        return render_template('create.html', data=divisions)
+        return render_template('create.html', data=divisions, weather=сelsius_degree())
+
+
+# -------------------------------------------------------------------------------------------
 
 
 @app.before_first_request
