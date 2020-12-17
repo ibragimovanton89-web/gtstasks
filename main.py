@@ -8,7 +8,7 @@ from flask_script import Manager
 from weather.weather import сelsius_degree
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///bide.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:gfhjkbr1A@localhost:5432/flask'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SECRET_KEY'] = 'ykuyutkytkytkytk'
 db = SQLAlchemy(app)
@@ -400,6 +400,14 @@ def create():
 
 @app.before_first_request
 def create_superuser():
+    if not (Division.query.get(1)):
+        division = Division(name="АСУ")
+
+        try:
+            db.session.add(division)
+            db.session.commit()
+        except:
+            print("Ошибка добавления поразделения в БД")
     if not (User.query.filter_by(status="Администратор").first()):
         admin = User(login='admin', name='admin', lastname='admin', division_id=1,
                      password=generate_password_hash('admin'), status='Администратор')
