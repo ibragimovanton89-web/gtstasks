@@ -7,10 +7,9 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from weather.weather import сelsius_degree
 
+
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///bide.db' #'postgresql://postgres:gfhjkbr1A@localhost:5432/flask'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config['SECRET_KEY'] = 'ykuyutkytkytkytk'
+app.config.from_object('config.DevelopementConfig')
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 migrate = Migrate(app, db)
