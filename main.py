@@ -8,7 +8,7 @@ from flask_script import Manager
 from weather.weather import сelsius_degree
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:gfhjkbr1A@localhost:5432/flask'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///bide.db' #'postgresql://postgres:gfhjkbr1A@localhost:5432/flask'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SECRET_KEY'] = 'ykuyutkytkytkytk'
 db = SQLAlchemy(app)
