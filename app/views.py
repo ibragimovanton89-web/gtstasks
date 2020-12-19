@@ -1,62 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+from app import db, app, login_manager
+from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
+from .models import User, Item, Division
 from datetime import datetime
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
-from weather.weather import сelsius_degree
-
-
-app = Flask(__name__)
-app.config.from_object('config.DevelopementConfig')
-db = SQLAlchemy(app)
-login_manager = LoginManager(app)
-migrate = Migrate(app, db)
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
-
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(100), nullable=False, unique=True)
-    name = db.Column(db.String(100), nullable=False)
-    lastname = db.Column(db.String(100), nullable=False)
-    division_id = db.Column(db.Integer, db.ForeignKey('division.id'), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    status = db.Column(db.String(100), nullable=False, default='Пользователь')
-    items = db.relationship('Item', backref='item_u', lazy='dynamic')
-
-    def __repr__(self):
-        return self.login
-
-
-class Item(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    iscompleted = db.Column(db.Boolean, default=False)
-    division_id = db.Column(db.Integer, db.ForeignKey('division.id'), nullable=False)
-    creation_date = db.Column(db.DateTime)
-    completion_date = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    executor = db.Column(db.String(100))
-
-    def __repr__(self):
-        return self.title
-
-
-class Division(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False, unique=True)
-    users = db.relationship('User', backref='user', lazy='dynamic')
-    items = db.relationship('Item', backref='item', lazy='dynamic')
-
-    def __repr__(self):
-        return self.name
-
-
-# -----------------------------------------------------------------------------------
+from .weather import сelsius_degree
 
 
 @login_manager.user_loader
@@ -415,8 +363,3 @@ def create_superuser():
             db.session.commit()
         except:
             print("Ошибка добавления Администратора в БД")
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-    manager.run()
