@@ -1,5 +1,5 @@
 from app import db, app, login_manager
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session,send_file
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.urls import url_parse
@@ -7,7 +7,7 @@ from .models import User, Item, Division
 from datetime import datetime
 from .weather import сelsius_degree
 from .forms import LoginForm
-
+import os
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -23,14 +23,11 @@ def login_user_page():
         password = form.password.data
         user = User.query.filter_by(login=login).first()
         if user and check_password_hash(user.password, password):
-
             login_user(user, remember=form.remember_me.data)
             next_page = request.args.get("next")
             if not next_page or url_parse(next_page).netloc != '':
                 next_page = url_for('index')
-
             return redirect(next_page, code=302)
-
         else:
             flash("Tакого пользователя или пароля не существует")
     return render_template('login.html', form=form)
@@ -160,7 +157,8 @@ def deluser(id):
 @app.route('/')
 def index():
     items = db.session.query(Item, Division, User).join(Division, Item.division_id == Division.id).join(User,
-                                                                                                        Item.user_id == User.id).all()
+                                                                                                      Item.user_id == User.id).all()
+
     return render_template('index.html', data=items, weather=сelsius_degree())
 
 
@@ -358,3 +356,14 @@ def create_superuser():
             db.session.commit()
         except:
             print("Ошибка добавления Администратора в БД")
+
+@app.route('/call')
+def call ():
+    return
+# @app.route('/download')
+# def downloadFile ():
+#     basedir = os.path.abspath(os.path.dirname(__file__))
+#     print(basedir)
+#     file= "test.txt"
+#     path=os.path.join(basedir, file)
+#     return send_file(path, as_attachment=True)
